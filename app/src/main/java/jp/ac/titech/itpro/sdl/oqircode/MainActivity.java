@@ -1,8 +1,13 @@
 package jp.ac.titech.itpro.sdl.oqircode;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -14,6 +19,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 import jp.ac.titech.itpro.sdl.oqircode.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,9 +31,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setListeners();
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
@@ -61,5 +69,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void setListeners() {
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.setClass(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0 , intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        findViewById(R.id.button_alarm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+
+                Calendar calendar = Calendar.getInstance();     //現在時間が取得される
+                calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める
+                long alarm_time = calendar.getTimeInMillis();
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
+            }
+        });
     }
 }

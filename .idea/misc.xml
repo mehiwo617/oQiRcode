@@ -5,17 +5,14 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.1405" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.14814814814814814" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/content_main.xml" value="0.1404566492051084" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.31622569217385854" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.14814814814814814" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.21768707482993196" />
         <entry key="app/src/main/res/menu/main.xml" value="0.14814814814814814" />
       </map>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_camera.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

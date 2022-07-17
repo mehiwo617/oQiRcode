@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="button_alarm">alarm</string>
+    <string name="button_stop">stop</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_qrcode">QRcode</string>

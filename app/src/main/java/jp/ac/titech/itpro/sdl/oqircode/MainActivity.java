@@ -5,19 +5,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -25,16 +26,32 @@ import jp.ac.titech.itpro.sdl.oqircode.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static String TAG = MainActivity.class.getSimpleName();
+
+    private static Context mContext;
+
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    private Button mAlarmButton;
+    private Button mStopButton; //一時的に設置
+
+    private AlarmPlayer mAlarmPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mContext = getApplicationContext();
+        mAlarmPlayer = new AlarmPlayer(mContext);
 
-        setListeners();
+        mAlarmButton = findViewById(R.id.button_alarm);
+        mStopButton = findViewById(R.id.button_stop);
+
+//        setListeners();
+//        mAlarmButton.setOnClickListener(this);
+//        mStopButton.setOnClickListener(this);
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
@@ -71,14 +88,41 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    public void onClickStop(View view) {
+
+        Log.d(TAG, "Stop click");
+//        if (view == mStopButton) {
+        mAlarmPlayer.stop();
+//        } else {
+//            return;
+//        }
+        return;
+    }
+
+    public void onClickAlarm(View view) {
+
+        Intent intent = new Intent(this, AlarmController.class);
+        intent.setClass(this, AlarmController.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();     //現在時間が取得される
+        calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める
+        long alarm_time = calendar.getTimeInMillis();
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
+
+    }
+
+    // OnClickAlarmに移行
     private void setListeners() {
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setClass(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0 , intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent intent = new Intent(this, AlarmController.class);
+        intent.setClass(this, AlarmController.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         findViewById(R.id.button_alarm).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
 
                 Calendar calendar = Calendar.getInstance();     //現在時間が取得される
                 calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める

@@ -2,35 +2,54 @@ package jp.ac.titech.itpro.sdl.oqircode;
 
 import static android.media.AudioManager.STREAM_ALARM;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
-public class AlarmPlayer {
+public class AlarmController extends BroadcastReceiver {
 
-    private final Context mContext;
+    private final static String TAG = AlarmController.class.getSimpleName();
+
+    //    private Context mContext;
     private long mCrescendoDuration = 0;
     private long mCrescendoStopTime = 0;
-    private final static String TAG = AlarmPlayer.class.getSimpleName();
-
     MediaPlayer mMediaPlayer;
+    long duration = 5;
 
-    public AlarmPlayer(Context context) {
-        mContext = context;
+    /**
+     * 設定時間になったら動く
+     *
+     * @param context
+     * @param intent
+     */
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Toast toast = Toast.makeText(context, "アラームおk！", Toast.LENGTH_SHORT);
+        try {
+            playRingtone(duration, context);
+            Log.d(TAG, "ok アラーム");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "アラーム失敗");
+        }
+        toast.show();
     }
 
-    public boolean play(long crescendoDuration) throws IOException {
+    public boolean playRingtone(long crescendoDuration, Context context) throws IOException {
         Log.d(TAG, "Alarm Play");
         mCrescendoDuration = crescendoDuration;
         mMediaPlayer = new MediaPlayer();
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
-        mMediaPlayer.setDataSource(mContext, uri);
+        mMediaPlayer.setDataSource(context, uri);
 
         mMediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ALARM)
@@ -61,5 +80,4 @@ public class AlarmPlayer {
 
         return true;
     }
-
 }

@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -20,6 +22,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.Calendar;
 
@@ -41,12 +46,26 @@ public class MainActivity extends AppCompatActivity {
     private AlarmPlayer mAlarmPlayer;
     private AlarmReceiver mReceiver;
 
+    private QRReader mQRReader;
+    // Register the launcher and result handler
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
+            result -> {
+                mQRReader = new QRReader(result);
+                if (mQRReader.isTrueQR()) {
+                    Log.d(TAG, "Stop QRAlarm");
+                    mAlarmPlayer.stop();
+                } else {
+                    Toast.makeText(mContext, "Incorrect QRcode", Toast.LENGTH_LONG).show();
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         mContext = getApplicationContext();
         mAlarmPlayer = new AlarmPlayer(mContext);
         mReceiver = new AlarmReceiver(mAlarmPlayer);
@@ -62,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new IntentIntegrator(MainActivity.this).initiateScan();
+//                new IntentIntegrator(MainActivity.this).initiateScan();
+                barcodeLauncher.launch(new ScanOptions());
             }
+
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -123,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            Log.d("readQR", result.getContents());
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
 }

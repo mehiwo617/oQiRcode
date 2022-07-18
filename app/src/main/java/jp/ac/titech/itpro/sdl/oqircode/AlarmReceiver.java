@@ -32,7 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast toast = Toast.makeText(context, "アラームおk！", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, "アラームが鳴っています", Toast.LENGTH_SHORT);
         if (mAlarmPlayer == null) {
             Log.d(TAG, "Alarm Player null");
         } else {

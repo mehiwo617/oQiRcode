@@ -92,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * アラームをストップさせる
+     *
+     * @param view ボタンの種類
+     */
     public void onClickStop(View view) {
 
         Log.d(TAG, "Stop click");
@@ -99,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
+    /**
+     * アラームを稼働させる
+     *
+     * @param view ボタンの種類
+     */
     public void onClickAlarm(View view) {
         Log.d(TAG, "Click Alarm");
 

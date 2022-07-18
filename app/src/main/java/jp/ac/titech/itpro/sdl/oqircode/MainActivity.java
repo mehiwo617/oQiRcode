@@ -26,7 +26,6 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 import jp.ac.titech.itpro.sdl.oqircode.databinding.ActivityMainBinding;
 
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickAlarm(View view) {
         Log.d(TAG, "Click Alarm");
 
-        TimePick mTimePickerDialog = new TimePick(mAlarmCalendar);
+        TimePick mTimePickerDialog = new TimePick(mAlarmCalendar, mAlarmTimeText);
         mTimePickerDialog.show(getSupportFragmentManager(), "timePicker");
 
 
@@ -157,9 +156,7 @@ public class MainActivity extends AppCompatActivity {
         long alarm_time = mAlarmCalendar.getTimeInMillis();
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
-
-        String time = String.format(Locale.JAPAN, "%02d:%02d", mAlarmCalendar.get(Calendar.HOUR_OF_DAY), mAlarmCalendar.get(Calendar.MINUTE));
-        mAlarmTimeText.setText(time);
+        
     }
 
 }

@@ -142,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * アラームをスタートさせる(スイッチ的な)
+     *
+     * @param view
+     */
     public void onClickStart(View view) {
         Intent intent = new Intent();
         intent.setAction(ACTION_ALARM);

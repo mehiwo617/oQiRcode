@@ -21,8 +21,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -55,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     if (mQRReader.isTrueQR()) {
                         Log.d(TAG, "Stop QRAlarm");
                         mAlarmPlayer.stop();
+                        Toast.makeText(mContext, "Success in stopping alarm!!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(mContext, "Incorrect QRcode", Toast.LENGTH_LONG).show();
                     }
@@ -148,16 +147,6 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            Log.d("readQR", result.getContents());
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
 }

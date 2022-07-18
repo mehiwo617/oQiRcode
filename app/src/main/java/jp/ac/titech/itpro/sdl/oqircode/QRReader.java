@@ -8,17 +8,23 @@ public class QRReader {
 
     private final static String TAG = QRReader.class.getSimpleName();
     ScanIntentResult mResult;
-    String correctQR = "https://scrapbox.io/astarothmeffime-90971468/";
+    //    String correctQR = "https://scrapbox.io/astarothmeffime-90971468/";
+    QRCode mCode = new QRCode();
+    String correctQR = mCode.code;
 
     public QRReader(ScanIntentResult result) {
         mResult = result;
     }
 
     public Boolean isTrueQR() {
-        Log.d(TAG, mResult.getContents() + " を読み取った");
-        if (mResult.getContents().equals(correctQR)) {
-            return true;
-        } else
-            return false;
+        if (mResult != null) {
+            Log.d(TAG, mResult.getContents() + " を読み取った");
+            if (mResult.getContents().equals(correctQR)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }

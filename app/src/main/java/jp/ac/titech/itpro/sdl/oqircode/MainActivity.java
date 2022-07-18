@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private Button mStopButton; //一時的に設置
+    private Switch mAlarmSwitch;
     private Calendar mAlarmCalendar = Calendar.getInstance();
     private TextView mAlarmTimeText;
 
     private AlarmPlayer mAlarmPlayer;
     private AlarmReceiver mReceiver;
+    private AlarmManager mAlarmManager;
+    private PendingIntent mPendingIntent;
 
     private QRReader mQRReader;
     // Register the launcher and result handler
@@ -77,12 +82,25 @@ public class MainActivity extends AppCompatActivity {
 
         mStopButton = findViewById(R.id.button_stop);
         mAlarmTimeText = findViewById(R.id.alarm_time);
+        mAlarmSwitch = findViewById(R.id.alarm_switch);
+        /* スイッチの操作でアラームを止めたりつけたりする */
+        mAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+                if (isChecked) {
+                    registerAlarm();
+                } else {
+                    unregisterAlarm();
+                }
+            }
+        });
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_ALARM);
         registerReceiver(mReceiver, intentFilter);
 
         setSupportActionBar(binding.appBarMain.toolbar);
+        /* QRコードの読み取りを始める */
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,33 +148,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * アラームを稼働させる
+     * 時間をクリックしてアラームの時間を設定する
      *
      * @param view ボタンの種類
      */
-    public void onClickAlarm(View view) {
-        Log.d(TAG, "Click Alarm");
+    public void onClickAlarmTimeSet(View view) {
+        Log.d(TAG, "Alarm Time Set");
 
         TimePick mTimePickerDialog = new TimePick(mAlarmCalendar, mAlarmTimeText);
         mTimePickerDialog.show(getSupportFragmentManager(), "timePicker");
 
-
     }
 
     /**
-     * アラームをスタートさせる(スイッチ的な)
-     *
-     * @param view
+     * アラームを登録する
      */
-    public void onClickStart(View view) {
+    public void registerAlarm() {
         Intent intent = new Intent();
         intent.setAction(ACTION_ALARM);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         long alarm_time = mAlarmCalendar.getTimeInMillis();
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
-        
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), mPendingIntent);
     }
+
+    /**
+     * アラームを解除する
+     */
+    private void unregisterAlarm() {
+        mAlarmManager.cancel(mPendingIntent);
+    }
+
 
 }

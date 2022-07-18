@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                new IntentIntegrator(MainActivity.this).initiateScan();
                 barcodeLauncher.launch(new ScanOptions());
             }
 
@@ -137,19 +136,9 @@ public class MainActivity extends AppCompatActivity {
     public void onClickAlarm(View view) {
         Log.d(TAG, "Click Alarm");
 
-//        Calendar calendar = Calendar.getInstance();     //現在時間が取得される
-//        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//        final int minute = calendar.get(Calendar.MINUTE);
-
         TimePick mTimePickerDialog = new TimePick(mAlarmCalendar);
         mTimePickerDialog.show(getSupportFragmentManager(), "timePicker");
 
-
-//        calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める
-//        long alarm_time = calendar.getTimeInMillis();
-
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
 
     }
 

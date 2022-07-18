@@ -8,7 +8,6 @@ public class QRReader {
 
     private final static String TAG = QRReader.class.getSimpleName();
     ScanIntentResult mResult;
-    //    String correctQR = "https://scrapbox.io/astarothmeffime-90971468/";
     QRCode mCode = new QRCode();
     String correctQR = mCode.code;
 

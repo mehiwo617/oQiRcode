@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
 
     private static Context mContext;
+    private final String ACTION_ALARM = "jp.ac.titech.itpro.sdl.oqircode.alarm";
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -37,21 +39,24 @@ public class MainActivity extends AppCompatActivity {
     private Button mStopButton; //一時的に設置
 
     private AlarmPlayer mAlarmPlayer;
+    private AlarmReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mContext = getApplicationContext();
         mAlarmPlayer = new AlarmPlayer(mContext);
+        mReceiver = new AlarmReceiver(mAlarmPlayer);
 
         mAlarmButton = findViewById(R.id.button_alarm);
         mStopButton = findViewById(R.id.button_stop);
 
-//        setListeners();
-//        mAlarmButton.setOnClickListener(this);
-//        mStopButton.setOnClickListener(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_ALARM);
+        registerReceiver(mReceiver, intentFilter);
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
@@ -91,18 +96,15 @@ public class MainActivity extends AppCompatActivity {
     public void onClickStop(View view) {
 
         Log.d(TAG, "Stop click");
-//        if (view == mStopButton) {
         mAlarmPlayer.stop();
-//        } else {
-//            return;
-//        }
         return;
     }
 
     public void onClickAlarm(View view) {
+        Log.d(TAG, "Click Alarm");
 
-        Intent intent = new Intent(this, AlarmController.class);
-        intent.setClass(this, AlarmController.class);
+        Intent intent = new Intent();
+        intent.setAction(ACTION_ALARM);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Calendar calendar = Calendar.getInstance();     //現在時間が取得される
@@ -114,23 +116,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // OnClickAlarmに移行
-    private void setListeners() {
-        Intent intent = new Intent(this, AlarmController.class);
-        intent.setClass(this, AlarmController.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        findViewById(R.id.button_alarm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Calendar calendar = Calendar.getInstance();     //現在時間が取得される
-                calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める
-                long alarm_time = calendar.getTimeInMillis();
-
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
-            }
-        });
-    }
 }

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mAlarmButton;
     private Button mStopButton; //一時的に設置
+    private Calendar mAlarmCalendar = Calendar.getInstance();
 
     private AlarmPlayer mAlarmPlayer;
     private AlarmReceiver mReceiver;
@@ -136,17 +137,30 @@ public class MainActivity extends AppCompatActivity {
     public void onClickAlarm(View view) {
         Log.d(TAG, "Click Alarm");
 
+//        Calendar calendar = Calendar.getInstance();     //現在時間が取得される
+//        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//        final int minute = calendar.get(Calendar.MINUTE);
+
+        TimePick mTimePickerDialog = new TimePick(mAlarmCalendar);
+        mTimePickerDialog.show(getSupportFragmentManager(), "timePicker");
+
+
+//        calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める
+//        long alarm_time = calendar.getTimeInMillis();
+
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
+
+    }
+
+    public void onClickStart(View view) {
         Intent intent = new Intent();
         intent.setAction(ACTION_ALARM);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        Calendar calendar = Calendar.getInstance();     //現在時間が取得される
-        calendar.setTimeInMillis(System.currentTimeMillis() + 5000);   //カレンダーを5秒進める
-        long alarm_time = calendar.getTimeInMillis();
-
+        long alarm_time = mAlarmCalendar.getTimeInMillis();
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
-
     }
 
 }

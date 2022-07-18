@@ -9,6 +9,7 @@
 
     <string name="button_alarm">alarm</string>
     <string name="button_stop">stop</string>
+    <string name="button_start">start</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_qrcode">QRcode</string>

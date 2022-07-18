@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,6 +26,7 @@ import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import jp.ac.titech.itpro.sdl.oqircode.databinding.ActivityMainBinding;
 
@@ -38,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
-    private Button mAlarmButton;
     private Button mStopButton; //一時的に設置
     private Calendar mAlarmCalendar = Calendar.getInstance();
+    private TextView mAlarmTimeText;
 
     private AlarmPlayer mAlarmPlayer;
     private AlarmReceiver mReceiver;
@@ -74,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         mAlarmPlayer = new AlarmPlayer(mContext);
         mReceiver = new AlarmReceiver(mAlarmPlayer);
 
-        mAlarmButton = findViewById(R.id.button_alarm);
         mStopButton = findViewById(R.id.button_stop);
+        mAlarmTimeText = findViewById(R.id.alarm_time);
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_ALARM);
@@ -155,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
         long alarm_time = mAlarmCalendar.getTimeInMillis();
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), pendingIntent);
+
+        String time = String.format(Locale.JAPAN, "%02d:%02d", mAlarmCalendar.get(Calendar.HOUR_OF_DAY), mAlarmCalendar.get(Calendar.MINUTE));
+        mAlarmTimeText.setText(time);
     }
 
 }

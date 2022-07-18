@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="00:00"
         android:textSize="96sp"
+        android:onClick="onClickAlarm"
         app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment_content_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

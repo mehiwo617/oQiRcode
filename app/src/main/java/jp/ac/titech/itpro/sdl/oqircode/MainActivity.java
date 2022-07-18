@@ -50,12 +50,16 @@ public class MainActivity extends AppCompatActivity {
     // Register the launcher and result handler
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
-                mQRReader = new QRReader(result);
-                if (mQRReader.isTrueQR()) {
-                    Log.d(TAG, "Stop QRAlarm");
-                    mAlarmPlayer.stop();
+                if (result.getContents() != null) {
+                    mQRReader = new QRReader(result);
+                    if (mQRReader.isTrueQR()) {
+                        Log.d(TAG, "Stop QRAlarm");
+                        mAlarmPlayer.stop();
+                    } else {
+                        Toast.makeText(mContext, "Incorrect QRcode", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(mContext, "Incorrect QRcode", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Cancel", Toast.LENGTH_LONG).show();
                 }
             });
 

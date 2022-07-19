@@ -12,9 +12,5 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_qrcode"
             android:title="@string/menu_qrcode" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
     </group>
 </menu>

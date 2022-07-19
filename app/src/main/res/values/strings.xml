@@ -11,7 +11,7 @@
     <string name="button_start">start</string>
     <string name="alarm_time">alarm_time</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_qrcode">QRcode</string>
+    <string name="menu_home">アラーム画面</string>
+    <string name="menu_qrcode">QRコード</string>
     <string name="menu_slideshow">Slideshow</string>
 </resources>

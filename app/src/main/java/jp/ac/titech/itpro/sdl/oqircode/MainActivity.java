@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
-    private Button mStopButton; //一時的に設置
+    //    private Button mStopButton; //一時的に設置
     private Switch mAlarmSwitch;
     private Calendar mAlarmCalendar = Calendar.getInstance();
     private TextView mAlarmTimeText;
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         mAlarmPlayer = new AlarmPlayer(mContext);
         mReceiver = new AlarmReceiver(mAlarmPlayer);
 
-        mStopButton = findViewById(R.id.button_stop);
+//        mStopButton = findViewById(R.id.button_stop);
         mAlarmTimeText = findViewById(R.id.alarm_time);
         mAlarmSwitch = findViewById(R.id.alarm_switch);
         /* スイッチの操作でアラームを止めたりつけたりする */

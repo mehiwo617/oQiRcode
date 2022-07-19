@@ -29,7 +29,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:maxImageSize="40dp"
+        app:maxImageSize="36dp"
+        app:tint="@color/white"
         app:srcCompat="@drawable/ic_qrscanner" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

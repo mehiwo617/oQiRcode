@@ -37,8 +37,8 @@ public class AlarmPlayer {
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build());
 
-
         mMediaPlayer.setAudioStreamType(STREAM_ALARM);
+        mMediaPlayer.setVolume(1, 1);
         mMediaPlayer.setLooping(true);
         mMediaPlayer.prepare();
         mMediaPlayer.start();

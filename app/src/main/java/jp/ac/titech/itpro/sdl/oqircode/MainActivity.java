@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     if (mQRReader.isTrueQR()) {
                         Log.d(TAG, "Stop QRAlarm");
                         mAlarmPlayer.stop();
+                        mAlarmSwitch.setChecked(false);
                         Toast.makeText(mContext, "Success in stopping alarm!!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(mContext, "Incorrect QRcode", Toast.LENGTH_LONG).show();

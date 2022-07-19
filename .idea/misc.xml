@@ -10,14 +10,14 @@
         <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.1405" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2650100708007813" />
-        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.33112487792968753" />
-        <entry key="app/src/main/res/layout/content_main.xml" value="0.31622569217385854" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.27397308349609373" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.3287246704101563" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.31085871943721066" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.21768707482993196" />
-        <entry key="app/src/main/res/menu/main.xml" value="0.14814814814814814" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.5176122594762731" />
       </map>
     </option>
   </component>

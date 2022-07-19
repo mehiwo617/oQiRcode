@@ -12,11 +12,13 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/bananaslipplus</item>
     </style>
 
     <style name="Theme.OQiRcode.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:fontFamily">@font/bananaslipplus</item>
     </style>
 
     <style name="Theme.OQiRcode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

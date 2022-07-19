@@ -87,6 +87,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton button, boolean isChecked) {
                 if (isChecked) {
+                    Calendar nowCalendar = Calendar.getInstance();
+                    int nowDay = nowCalendar.get(Calendar.DAY_OF_MONTH);
+                    int nowHour = nowCalendar.get(Calendar.HOUR_OF_DAY);
+                    int nowMinute = nowCalendar.get(Calendar.MINUTE);
+                    int hour = mAlarmCalendar.get(Calendar.HOUR_OF_DAY);
+                    int minute = mAlarmCalendar.get(Calendar.MINUTE);
+                    // 今の時刻より前なら明日起動
+                    Log.d(TAG, "now hour " + String.valueOf(nowHour) + " in hour " + String.valueOf(hour));
+                    Log.d(TAG, "now hour " + String.valueOf(nowMinute) + " in hour " + String.valueOf(minute));
+                    if (nowHour > hour && nowMinute > hour) {
+                        Log.d(TAG, "明日通知");
+                        mAlarmCalendar.set(Calendar.DAY_OF_MONTH, nowDay + 1);
+                    }
                     registerAlarm();
                 } else {
                     unregisterAlarm();

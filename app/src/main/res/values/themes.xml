@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:fontFamily">@font/bananaslipplus</item>
+        <item name="android:fontFamily">@font/corp_round_v1</item>
     </style>
 
     <style name="Theme.OQiRcode.NoActionBar">

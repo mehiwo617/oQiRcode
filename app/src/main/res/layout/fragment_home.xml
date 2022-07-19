@@ -22,23 +22,23 @@
 
     <Switch
         android:id="@+id/alarm_switch"
-        android:layout_width="75dp"
-        android:layout_height="54dp"
-        android:switchMinWidth="70dp"
+        android:layout_width="109dp"
+        android:layout_height="53dp"
+        android:switchMinWidth="110dp"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.744" />
+        app:layout_constraintVertical_bias="0.728" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="177dp"
-        android:layout_height="24dp"
+        android:layout_width="184dp"
+        android:layout_height="51dp"
         android:gravity="center"
         android:text="アラーム"
-        android:textSize="20sp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/alarm_switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

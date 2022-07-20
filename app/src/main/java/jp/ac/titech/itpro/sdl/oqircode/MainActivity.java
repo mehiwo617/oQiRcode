@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
 
+    private Boolean switchBool = false;
+
     private QRReader mQRReader;
     // Register the launcher and result handler
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
@@ -95,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
                     int minute = mAlarmCalendar.get(Calendar.MINUTE);
                     // 今の時刻より前なら明日起動
                     Log.d(TAG, "now hour " + String.valueOf(nowHour) + " in hour " + String.valueOf(hour));
-                    Log.d(TAG, "now hour " + String.valueOf(nowMinute) + " in hour " + String.valueOf(minute));
-                    if (nowHour > hour && nowMinute > hour) {
+                    Log.d(TAG, "now minute " + String.valueOf(nowMinute) + " in minute " + String.valueOf(minute));
+                    if (nowHour > hour && nowMinute > hour || nowHour > hour) {
                         Log.d(TAG, "明日通知");
                         mAlarmCalendar.set(Calendar.DAY_OF_MONTH, nowDay + 1);
                     }
@@ -176,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
         long alarm_time = mAlarmCalendar.getTimeInMillis();
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), mPendingIntent);
+        switchBool = true;
+        Log.d(TAG, "switch true");
     }
 
     /**
@@ -183,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void unregisterAlarm() {
         mAlarmManager.cancel(mPendingIntent);
+        mPendingIntent.cancel();
+        switchBool = false;
+        Log.d(TAG, "switch false");
     }
 
 

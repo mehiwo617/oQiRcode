@@ -21,7 +21,12 @@
         <item name="android:fontFamily">@font/bananaslipplus</item>
     </style>
 
-    <style name="Theme.OQiRcode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.OQiRcode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:fontFamily">@font/corp_round_v1</item>
+    </style>
 
-    <style name="Theme.OQiRcode.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.OQiRcode.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/corp_round_v1</item>
+    </style>
+
 </resources>

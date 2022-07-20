@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +27,9 @@ import com.journeyapps.barcodescanner.ScanOptions;
 import java.util.Calendar;
 
 import jp.ac.titech.itpro.sdl.oqircode.databinding.ActivityMainBinding;
+import jp.ac.titech.itpro.sdl.oqircode.ui.home.HomeFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.DirectionListener {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     //    private Button mStopButton; //一時的に設置
-    private Switch mAlarmSwitch;
     private Calendar mAlarmCalendar = Calendar.getInstance();
     private TextView mAlarmTimeText;
 
@@ -60,13 +59,14 @@ public class MainActivity extends AppCompatActivity {
                     if (mQRReader.isTrueQR()) {
                         Log.d(TAG, "Stop QRAlarm");
                         mAlarmPlayer.stop();
+                        Switch mAlarmSwitch = findViewById(R.id.alarm_switch);
                         mAlarmSwitch.setChecked(false);
-                        Toast.makeText(mContext, "Success in stopping alarm!!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "アラームを止めました！", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(mContext, "Incorrect QRcode", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "それは違うQRコードです", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(mContext, "Cancel", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "スキャンをキャンセルしました", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -83,31 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        mStopButton = findViewById(R.id.button_stop);
         mAlarmTimeText = findViewById(R.id.alarm_time);
-        mAlarmSwitch = findViewById(R.id.alarm_switch);
-        /* スイッチの操作でアラームを止めたりつけたりする */
-        mAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-                if (isChecked) {
-                    Calendar nowCalendar = Calendar.getInstance();
-                    int nowDay = nowCalendar.get(Calendar.DAY_OF_MONTH);
-                    int nowHour = nowCalendar.get(Calendar.HOUR_OF_DAY);
-                    int nowMinute = nowCalendar.get(Calendar.MINUTE);
-                    int hour = mAlarmCalendar.get(Calendar.HOUR_OF_DAY);
-                    int minute = mAlarmCalendar.get(Calendar.MINUTE);
-                    // 今の時刻より前なら明日起動
-                    Log.d(TAG, "now hour " + String.valueOf(nowHour) + " in hour " + String.valueOf(hour));
-                    Log.d(TAG, "now minute " + String.valueOf(nowMinute) + " in minute " + String.valueOf(minute));
-                    if (nowHour > hour && nowMinute > hour || nowHour > hour) {
-                        Log.d(TAG, "明日通知");
-                        mAlarmCalendar.set(Calendar.DAY_OF_MONTH, nowDay + 1);
-                    }
-                    registerAlarm();
-                } else {
-                    unregisterAlarm();
-                }
-            }
-        });
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_ALARM);
@@ -142,6 +117,27 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    public void onClicked(boolean isChecked) {
+        if (isChecked) {
+            Calendar nowCalendar = Calendar.getInstance();
+            int nowDay = nowCalendar.get(Calendar.DAY_OF_MONTH);
+            int nowHour = nowCalendar.get(Calendar.HOUR_OF_DAY);
+            int nowMinute = nowCalendar.get(Calendar.MINUTE);
+            int hour = mAlarmCalendar.get(Calendar.HOUR_OF_DAY);
+            int minute = mAlarmCalendar.get(Calendar.MINUTE);
+            // 今の時刻より前なら明日起動
+            Log.d(TAG, "now hour " + String.valueOf(nowHour) + " in hour " + String.valueOf(hour));
+            Log.d(TAG, "now minute " + String.valueOf(nowMinute) + " in minute " + String.valueOf(minute));
+            if (nowHour > hour && nowMinute > hour || nowHour > hour) {
+                Log.d(TAG, "明日通知");
+                mAlarmCalendar.set(Calendar.DAY_OF_MONTH, nowDay + 1);
+            }
+            registerAlarm();
+        } else {
+            unregisterAlarm();
+        }
+    }
+
     /**
      * アラームをストップさせる
      *
@@ -174,18 +170,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setAction(ACTION_ALARM);
         mPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        int hour = mAlarmCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = mAlarmCalendar.get(Calendar.MINUTE);
 
         long alarm_time = mAlarmCalendar.getTimeInMillis();
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(alarm_time, null), mPendingIntent);
         switchBool = true;
+        Toast.makeText(mContext, hour + ":" + minute + "にアラームを設定しました", Toast.LENGTH_LONG).show();
         Log.d(TAG, "switch true");
     }
 
     /**
      * アラームを解除する
      */
-    private void unregisterAlarm() {
+    public void unregisterAlarm() {
         mAlarmManager.cancel(mPendingIntent);
         mPendingIntent.cancel();
         switchBool = false;

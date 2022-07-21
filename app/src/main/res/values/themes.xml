@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+
     <style name="Theme.OQiRcode" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -22,11 +23,11 @@
     </style>
 
     <style name="Theme.OQiRcode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:fontFamily">@font/corp_round_v1</item>
+        <!--        <item name="android:fontFamily">@font/corp_round_v1</item>-->
     </style>
 
     <style name="Theme.OQiRcode.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:fontFamily">@font/corp_round_v1</item>
+        <!--        <item name="android:fontFamily">@font/corp_round_v1</item>-->
     </style>
 
 </resources>

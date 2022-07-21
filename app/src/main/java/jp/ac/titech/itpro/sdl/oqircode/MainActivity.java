@@ -170,8 +170,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Dire
         Intent intent = new Intent();
         intent.setAction(ACTION_ALARM);
         mPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        int hour = mAlarmCalendar.get(Calendar.HOUR_OF_DAY);
-        int minute = mAlarmCalendar.get(Calendar.MINUTE);
+        String hour = String.format("%02d", mAlarmCalendar.get(Calendar.HOUR_OF_DAY));
+        String minute = String.format("%02d", mAlarmCalendar.get(Calendar.MINUTE));
 
         long alarm_time = mAlarmCalendar.getTimeInMillis();
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

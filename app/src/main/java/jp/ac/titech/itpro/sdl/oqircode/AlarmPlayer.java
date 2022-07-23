@@ -28,6 +28,14 @@ public class AlarmPlayer {
         Log.d(TAG, "Alarm Play");
         mCrescendoDuration = crescendoDuration;
         mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                Log.e(TAG, "Error occurred while playing audio. Stopping AlarmKlaxon.");
+                stop();
+                return true;
+            }
+        });
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
         mMediaPlayer.setDataSource(mContext, uri);
